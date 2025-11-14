@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduardo Degani - Desenvolvedor Front-End & Fullstack</title>
+    <style>
+        /* ========================================
+           RESET E VARIÁVEIS GLOBAIS
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0D0D12;
+            --bg-secondary: #1A1A24;
+            --purple-neon: #8A2BE2;
+            --blue-violet: #4F46E5;
+            --text-primary: #E6E6F0;
+            --text-secondary: #A8A8C0;
+            --border-color: #2A2A3A;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           NAVBAR FIXA
+           ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 13, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.1);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8A2BE2, #4F46E5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8A2BE2, #4F46E5);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--purple-neon);
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.03), rgba(79, 70, 229, 0.03));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.1), transparent);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.1), transparent);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-content .role {
+            background: linear-gradient(135deg, #8A2BE2, #4F46E5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .roles-list {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .role-badge {
+            padding: 0.6rem 1.2rem;
+            background: rgba(138, 43, 226, 0.15);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--purple-neon);
+            transition: var(--transition);
+        }
+
+        .role-badge:hover {
+            background: rgba(138, 43, 226, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.2);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8A2BE2, #4F46E5);
+            color: white;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(138, 43, 226, 0.15);
+            color: var(--purple-neon);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(138, 43, 226, 0.25);
+            border-color: var(--purple-neon);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-container {
+            width: 320px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(79, 70, 229, 0.1));
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(138, 43, 226, 0.15);
+            animation: photoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes photoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        .photo-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translate(-100%, -100%);
+            }
+
+            100% {
+                transform: translate(100%, 100%);
+            }
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            z-index: 10;
+        }
+
+        .photo-placeholder p {
+            margin: 0;
+        }
+
+        /* ========================================
+           SEÇÕES GERAIS
+           ======================================== */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #8A2BE2, #4F46E5);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* ========================================
+           SEÇÃO SOBRE
+           ======================================== */
+        #sobre {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.02), rgba(79, 70, 229, 0.02));
+        }
+
+        .about-content {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .about-content:hover {
+            border-color: rgba(138, 43, 226, 0.3);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.1);
+        }
+
+        .about-content p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ========================================
+           SEÇÃO EXPERIÊNCIAS
+           ======================================== */
+        #experiencias {
+            background: var(--bg-primary);
+        }
+
+        .experience-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #8A2BE2, #4F46E5);
+            transition: var(--transition);
+        }
+
+        .experience-card:hover {
+            border-color: rgba(138, 43, 226, 0.3);
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.15);
+        }
+
+        .experience-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--purple-neon);
+        }
+
+        .experience-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           SEÇÃO CURSOS
+           ======================================== */
+        #cursos {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.02), rgba(79, 70, 229, 0.02));
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .course-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8A2BE2, transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(138, 43, 226, 0.3);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.2);
+        }
+
+        .course-card:hover::after {
+            opacity: 1;
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .course-card h3 {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .course-status {
+            padding: 0.4rem 0.8rem;
+            background: rgba(79, 70, 229, 0.15);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--blue-violet);
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .course-status.concluido {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+        }
+
+        .course-platform {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ========================================
+           SEÇÃO FORMAÇÃO
+           ======================================== */
+        #formacao {
+            background: var(--bg-primary);
+        }
+
+        .formation-item {
+            background: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            border-left: 4px solid var(--blue-violet);
+        }
+
+        .formation-item:hover {
+            border-left-color: var(--purple-neon);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.15);
+        }
+
+        .formation-item h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .formation-item p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .formation-date {
+            color: var(--purple-neon);
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* ========================================
+           SEÇÃO CONTATO
+           ======================================== */
+        #contato {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.02), rgba(79, 70, 229, 0.02));
+            text-align: center;
+        }
+
+        .contact-content {
+            margin-bottom: 3rem;
+        }
+
+        .contact-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-item {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            border-color: rgba(138, 43, 226, 0.3);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item h3 {
+            color: var(--purple-neon);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .contact-item a {
+            color: var(--blue-violet);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            color: var(--purple-neon);
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(138, 43, 226, 0.15);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--purple-neon);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: rgba(138, 43, 226, 0.25);
+            border-color: var(--purple-neon);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.3);
+        }
+
+        /* ========================================
+           RODAPÉ
+           ======================================== */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* ========================================
+           BOTÃO VOLTAR AO TOPO
+           ======================================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8A2BE2, #4F46E5);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
+        }
+
+        /* ========================================
+           RESPONSIVIDADE
+           ======================================== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: rgba(13, 13, 18, 0.98);
+                padding: 2rem 0;
+                gap: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 1rem 2rem;
+                display: block;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .role-badge {
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content .role {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .photo-container {
+                width: 250px;
+                height: 320px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-logo {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+
+    <script>
+        // ========================================
+        // MENU MOBILE E NAVEGAÇÃO
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            const navLinkItems = document.querySelectorAll('.nav-links a');
+
+            // Toggle menu mobile
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function () {
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            // Fechar menu ao clicar em um link
+            navLinkItems.forEach(link => {
+                link.addEventListener('click', function () {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // ========================================
+            // BOTÃO VOLTAR AO TOPO
+            // ========================================
+            const backToTop = document.querySelector('.back-to-top');
+
+            window.addEventListener('scroll', function () {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+
+            if (backToTop) {
+                backToTop.addEventListener('click', function () {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // ========================================
+            // EFEITOS DE SCROLL E ANIMAÇÕES
+            // ========================================
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observar elementos para animação
+            document.querySelectorAll('.course-card, .experience-card, .formation-item, .contact-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- NAVBAR FIXA -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">EDM</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#experiencias">Experiências</a></li>
+                <li><a href="#cursos">Cursos</a></li>
+                <li><a href="#formacao">Formação</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Eduardo Degani Malvestio Moraes</h1>
+                <div class="role">Desenvolvedor Front-End</div>
+                <div class="roles-list">
+                    <span class="role-badge">Analista de Sistemas em formação</span>
+                    <span class="role-badge">Fullstack em andamento</span>
+                </div>
+                <p>Estudante dedicado transformando ideias em código limpo e funcional. Apaixonado por criar interfaces intuitivas e explorar todo o potencial da web moderna.</p>
+                <div class="hero-buttons">
+                    <a href="#contato" class="btn btn-primary">Entrar em Contato</a>
+                    <a href="#sobre" class="btn btn-secondary">Saiba Mais</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="photo-container">
+                    <div class="photo-placeholder">
+                        <p><img src="/projeto portifolio/img/eduu-img.jpg" alt=""></p>
+                        <p style="margin-top: 0.5rem;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO SOBRE -->
+    <section id="sobre">
+        <h2 class="section-title">Sobre Mim</h2>
+        <p class="section-subtitle">Conheça mais sobre minha trajetória</p>
+
+        <div class="about-content">
+            <p>Estudante dedicado de Análise e Desenvolvimento de Sistemas e aspirante a Desenvolvedor Fullstack Júnior. Possuo uma base sólida em Front-end (HTML5, CSS3, JavaScript ES6+) e conceitos de Back-end (SQL, Lógica de Programação, Git).</p>
+            <p>Foco na trilha Fullstack, buscando a primeira oportunidade para aplicar conhecimentos em projetos reais, desenvolver código limpo e contribuir em ambientes de Desenvolvimento Ágil e versionamento de código.</p>
+        </div>
+    </section>
+
+    <!-- SEÇÃO EXPERIÊNCIAS -->
+    <section id="experiencias">
+        <h2 class="section-title">Experiências</h2>
+        <p class="section-subtitle">Meu perfil profissional</p>
+
+        <div class="experience-card">
+            <h3>Perfil Profissional</h3>
+            <p>Estudante dedicado de Análise e Desenvolvimento de Sistemas e aspirante a Desenvolvedor Fullstack Júnior. Possuo uma base sólida em Front-end (HTML5, CSS3, JavaScript ES6+) e conceitos de Back-end (SQL, Lógica de Programação, Git). Foco na trilha Fullstack, buscando a primeira oportunidade para aplicar conhecimentos em projetos reais, desenvolver código limpo e contribuir em ambientes de Desenvolvimento Ágil e versionamento de código.</p>
+        </div>
+    </section>
+
+    <!-- SEÇÃO CURSOS -->
+    <section id="cursos">
+        <h2 class="section-title">Cursos</h2>
+        <p class="section-subtitle">Minha formação contínua</p>
+
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Trilha Completa de Programação Fullstack</h3>
+                    <span class="course-status">Em andamento</span>
+                </div>
+                <p class="course-platform">Origamid / Alura</p>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>JavaScript ES6 (Completo e Avançado)</h3>
+                    <span class="course-status">Cursando</span>
+                </div>
+                <p class="course-platform">Origamid</p>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>UI/UX Design Completo</h3>
+                    <span class="course-status">Cursando</span>
+                </div>
+                <p class="course-platform">Origamid</p>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>HTML5 e CSS3</h3>
+                    <span class="course-status concluido">Concluído</span>
+                </div>
+                <p class="course-platform">Origamid</p>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>CSS Grid Layout e Flexbox</h3>
+                    <span class="course-status concluido">Concluído</span>
+                </div>
+                <p class="course-platform">Origamid</p>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Banco de Dados SQL (Básico)</h3>
+                    <span class="course-status concluido">Concluído</span>
+                </div>
+                <p class="course-platform">Udemy</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO FORMAÇÃO ACADÊMICA -->
+    <section id="formacao">
+        <h2 class="section-title">Formação Acadêmica</h2>
+        <p class="section-subtitle">Minha trajetória educacional</p>
+
+        <div class="formation-item">
+            <h3>Análise e Desenvolvimento de Sistemas</h3>
+            <p>Centro Universitário Unicesumar</p>
+            <div class="formation-date">2025 – 2027 (Cursando)</div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO CONTATO -->
+    <section id="contato">
+        <h2 class="section-title">Entre em Contato</h2>
+        <p class="section-subtitle">Vamos conectar e criar algo incrível juntos</p>
+
+        <div class="contact-content">
+            <p>Estou aberto a novas oportunidades, colaborações e conversas interessantes sobre desenvolvimento e tecnologia.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon">📱</div>
+                <h3>Telefone</h3>
+                <p><a href="https://wa.me/qr/5A4ZXABFZR4LA1">(16) 99361-1244</a></p>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">📍</div>
+                <h3>Localização</h3>
+                <p>Batatais / SP</p>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">✉️</div>
+                <h3>Email</h3>
+                <p><a href="mailto:contatodegani@gmail.com">Enviar mensagem</a></p>
+            </div>
+        </div>
+
+        <div class="contact-content">
+            <p style="margin-top: 2rem;">Redes Sociais</p>
+        </div>
+
+        <div class="social-links">
+            <a href="https://github.com/degasdegani" class="social-btn" title="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/eduardo-degani/" class="social-btn" title="LinkedIn">💼</a>
+            <a href="https://wa.me/qr/5A4ZXABFZR4LA1" class="social-btn" title="WhatsApp">💬</a>
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Eduardo Degani Malvestio Moraes. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- BOTÃO VOLTAR AO TOPO -->
+    <button class="back-to-top" title="Voltar ao topo">↑</button>
+
+</body>
+
+</html>
